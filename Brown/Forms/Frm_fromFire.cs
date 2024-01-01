@@ -19,7 +19,7 @@ namespace Brown.Forms
     {
         private DataTable dt_ac01 = new DataTable("AC01");
         private OracleDataAdapter ac01Adapter = new OracleDataAdapter("", SqlAssist.conn);
-        private Register_brow bo = null;
+        //private Register_brow bo = null;
 
         private string sql = @"select ac001,ac002,ac003,ac004,ac014,ac015,ac020,ac050,ac051 from ac01 where status = '1' and 
                                 pkg_business.fun_FireIsSettled(ac001) = '1' and not exists ( select 1 from rc01 where rc001 = ac001 and rc01.status in ('1','3')) ";
@@ -37,7 +37,7 @@ namespace Brown.Forms
 		/// <param name="e"></param>
 		private void Frm_fromFire_Load(object sender, EventArgs e)
 		{
-			bo = this.swapdata["BusinessObject"] as Register_brow;
+			//bo = this.swapdata["BusinessObject"] as Register_brow;
 			gridControl1.DataSource = dt_ac01;
 			this.DoSearch();
 		}
@@ -74,7 +74,7 @@ namespace Brown.Forms
 			string s_sql = string.Empty;
 			if (txtedit_ac001.EditValue == null && txtedit_ac003.EditValue == null && txtedit_ac050.EditValue == null && comboBoxEdit1.Text == "全部")
 			{
-				MessageBox.Show("请至少输入一个条件！", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				XtraMessageBox.Show("请至少输入一个条件！", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -111,7 +111,7 @@ namespace Brown.Forms
 			ac01Adapter.Fill(dt_ac01);
 			if (dt_ac01.Rows.Count <= 0)
 			{
-				MessageBox.Show("没有找到记录!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				XtraMessageBox.Show("没有找到记录!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 		}
@@ -138,7 +138,7 @@ namespace Brown.Forms
 		private void Do(int rowHandle)
 		{
 			string s_ac001 = gridView1.GetRowCellValue(rowHandle, "AC001").ToString();
-			bo.swapdata["AC001"] = s_ac001;
+			this.swapdata["AC001"] = s_ac001;
 			DialogResult = DialogResult.OK;
 			this.Close();
 		}

@@ -37,7 +37,7 @@ namespace Brown.Forms
         private void simpleButton1_Click(object sender, EventArgs e)
         {
 			string sql = string.Empty;
-			if (txtedit_rc001.EditValue == null && txtedit_rc109.EditValue == null && txtedit_rc003.EditValue == null && txtEdit_rc050.EditValue == null && lookup_rc110.EditValue == null)
+			if (txtedit_rc001.EditValue == null && txtedit_rc109.EditValue == null && txtedit_rc003.EditValue == null && txtEdit_rc050.EditValue == null && lookup_rc110.EditValue == null && dateEdit1.EditValue == null && dateEdit2.EditValue == null)
 			{
 				if (MessageBox.Show("未输入任何查询条件,将查询所有记录，是否继续?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
@@ -70,6 +70,16 @@ namespace Brown.Forms
 					{
 						sql += " and rc110 ='" + lookup_rc110.EditValue + "' ";
 					}
+					if(dateEdit1.EditValue != null)
+					{
+						sql += " and to_char(rc200,'yyyy-mm-dd') >= '" + dateEdit1.DateTime.ToString("yyyy-MM-dd") + "'";
+					}
+					if (dateEdit2.EditValue != null)
+					{
+						sql += " and to_char(rc200,'yyyy-mm-dd') <= '" + dateEdit2.DateTime.ToString("yyyy-MM-dd") + "'";
+					}
+
+
 				}
 			}
  

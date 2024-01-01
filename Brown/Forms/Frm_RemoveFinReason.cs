@@ -21,7 +21,14 @@ namespace Brown.Forms
 
         private void b_ok_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(memoEdit1.Text))
+            {
+                XtraMessageBox.Show("必须输入原因!","提示",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
             string s_reason = memoEdit1.Text;
+
+
             this.swapdata["reason"] = s_reason;
             DialogResult = DialogResult.OK;
             this.Close();

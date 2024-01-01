@@ -279,15 +279,20 @@ namespace Brown.BusinessObject
 			if (!gv.PostEditor()) return false;
 			if (!gv.UpdateCurrentRow()) return false;
 
+			int i_row = 1;
+
 			///完整性检查 
 			DataTable dt_source = curIndex <= 6 ? sp_ds.Si01 : sp_ds.Gi01;
-			foreach(DataRow dr in dt_source.Rows)
+			string s_colname = curIndex <= 6 ? "SI003" : "GI003";
+			foreach (DataRow dr in dt_source.Rows)
 			{
-				if(dr[2] == null || dr[2] is DBNull)
+				if (dr["STATUS"].ToString() == "0") continue;
+				if( (dr[s_colname] == null || dr[s_colname] is DBNull) && dr["STATUS"].ToString() == "1")
 				{
-					XtraMessageBox.Show("项目名称必须输入!","提示",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+					XtraMessageBox.Show(i_row.ToString() + "行项目名称必须输入!","提示",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 					return false;
 				}
+				i_row++;
 			}
 			 
 			///////////////////////////////////////////

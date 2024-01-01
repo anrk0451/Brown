@@ -163,6 +163,10 @@ namespace Brown.Forms
 			string s_oc003 = txtEdit_oc003.Text;   //迁出人
 			string s_oc005 = te_oc005.Text;       //迁出原因
 			string s_oc004 = txtEdit_oc004.Text;   //迁出人身份证号
+			string s_fa001_2 = string.Empty;       //如果是退费,则要有一笔正数的收费发票
+			bool b_elecinv_refund = false;         //是否是电子票退款
+
+
 
 			int diff = int.Parse(txtEdit_diff.EditValue.ToString());
 			decimal nums = decimal.Zero;
@@ -173,6 +177,11 @@ namespace Brown.Forms
 			if (checkEdit1.Checked && (!string.IsNullOrEmpty(txtEdit_nums.Text)))
 			{
 				nums = decimal.Parse(txtEdit_nums.Text);
+				if (isrefund && nums > 0 && (!MiscAction.FinRefundBeforeOnline(fa001)))
+				{
+					b_elecinv_refund = true;
+					s_fa001_2 = Tools.GetEntityPK("FA01");
+				}					
 			}
 			else
 			{
@@ -180,6 +189,11 @@ namespace Brown.Forms
 			}
 
 			if (XtraMessageBox.Show("确认要继续办理迁出吗？本业务将不能回退!", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No) return;
+			if(isrefund && nums > 0 && b_elecinv_refund)			 
+				XtraMessageBox.Show("本次迁出需要退费操作!系统会生成两笔收款记录,两笔操作差额即是退费金额!","提示",MessageBoxButtons.OK,MessageBoxIcon.Warning);		 
+			else if (isrefund && nums > 0 && !b_elecinv_refund)			 
+				XtraMessageBox.Show("原发票在财政新接口上线前开具,不能开具对应退费发票,请在财政发票系统内完成发票开具.\r\n 开具成功后请更新发票号!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		 
 			//if ((!string.IsNullOrEmpty(txtEdit_fee.Text)) && Convert.ToDecimal(txtEdit_fee.Text) > 0 && Envior.cur_userId != AppInfo.ROOTID && !isrefund )
 			//{
 			//	XtraMessageBox.Show("当前记录已经欠费,不能迁出!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -194,7 +208,8 @@ namespace Brown.Forms
 												 fa001,
 												 price,
 												 isrefund ? 0 - nums : nums,
-												 Envior.cur_userId
+												 Envior.cur_userId,
+												 s_fa001_2
 				);
 			if (re > 0)
 			{
@@ -219,32 +234,44 @@ namespace Brown.Forms
 				if (!isrefund && nums  > 0)
 				{
 					if (XtraMessageBox.Show("现在开具【发票】吗?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-					{
-						//                  if(FinInvoice.GetCurrentPh() > 0)
-						//                  {
-						//	if (XtraMessageBox.Show("下一张财政发票号码:" + Envior.FIN_NEXT_BILL_NO + ",是否继续?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-						//	{
-						//		FinInvoice.Invoice(fa001);
-						//	}
-						//}		
-						FinInvoice.InvoiceElec(fa001);				 
-                    }
-				}
-				else if(isrefund && Math.Abs(nums) > 0)    //退费发票
-				{
-					//如果是新版接口上线前开具的原发票
-					if (MiscAction.FinRefundBeforeOnline(fa001))
-					{
-						XtraMessageBox.Show("原发票在财政新接口上线前开具,不能开具对应退费发票,请在财政发票系统内完成发票开具.\r\n 开具成功后请更新发票号!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					{						
+						if (FinInvoice.InvoiceElec(fa001) > 0)
+						{
+							if (XtraMessageBox.Show("现在打印财政电子票吗?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+							{
+								Frm_FinInvoice frm_1 = new Frm_FinInvoice();
+								frm_1.swapdata["FA001"] = fa001;
+								frm_1.ShowDialog();
+								frm_1.Dispose();
+							}
+						}
 					}
-					//else if (FinInvoice.GetCurrentPh() > 0)
-					//{
-					//	if (XtraMessageBox.Show("下一张财政发票号码:" + Envior.FIN_NEXT_BILL_NO + ",是否继续?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-					//	{
-					//		FinInvoice.Refund(fa001);
-					//	}
-					//}
-					XtraMessageBox.Show("功能暂不支持!");
+				}
+				else if(isrefund && Math.Abs(nums) > 0 && b_elecinv_refund)    //退费发票(电子票)
+				{
+					if (XtraMessageBox.Show("现在开具【发票】吗?共需要两张,一张负数红冲发票,一张正数发票!", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+					{
+						if (FinInvoice.InvoiceElec_Refund(fa001) > 0)
+						{
+							if (XtraMessageBox.Show("现在打印财政电子票吗?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+							{
+								Frm_FinInvoice frm_1 = new Frm_FinInvoice();
+								frm_1.swapdata["FA001"] = fa001;
+								frm_1.ShowDialog();
+								frm_1.Dispose();
+							}
+						}
+						if (FinInvoice.InvoiceElec(s_fa001_2) > 0)
+						{
+							if (XtraMessageBox.Show("现在打印财政电子票吗?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+							{
+								Frm_FinInvoice frm_1 = new Frm_FinInvoice();
+								frm_1.swapdata["FA001"] = s_fa001_2;
+								frm_1.ShowDialog();
+								frm_1.Dispose();
+							}
+						}
+					}					 
 				}
 			}
 			DialogResult = DialogResult.OK;

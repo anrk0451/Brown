@@ -489,7 +489,7 @@ namespace Brown.Action
 		/// <param name="nums"></param>
 		/// <param name="handler"></param>
 		/// <returns></returns>
-		public static int RegisterOut(string rc001, string oc003, string oc004, string oc005, int oc030, string fa001, decimal price, decimal nums, string handler)
+		public static int RegisterOut(string rc001, string oc003, string oc004, string oc005, int oc030, string fa001, decimal price, decimal nums, string handler,string s_fa001_2)
 		{
 			//逝者编号
 			OracleParameter op_rc001 = new OracleParameter("ic_rc001", OracleDbType.Varchar2, 10);
@@ -536,8 +536,13 @@ namespace Brown.Action
 			op_handler.Direction = ParameterDirection.Input;
 			op_handler.Value = handler;
 
+			//如果是退费 结算流水号2
+			OracleParameter op_fa001_2 = new OracleParameter("ic_fa001_2", OracleDbType.Varchar2, 10);
+			op_fa001_2.Direction = ParameterDirection.Input;
+			op_fa001_2.Value = s_fa001_2;
+
 			return SqlAssist.ExecuteProcedure("pkg_business.prc_RegisterOut", new OracleParameter[]
-				{op_rc001,op_oc003,op_oc004,op_oc005,op_oc030,op_fa001,op_price,op_nums,op_handler });
+				{op_rc001,op_oc003,op_oc004,op_oc005,op_oc030,op_fa001,op_price,op_nums,op_handler,op_fa001_2 });
 		}
 
 
@@ -657,5 +662,166 @@ namespace Brown.Action
 			Object re = SqlAssist.ExecuteScalar("select pkg_Report.fun_GetRgUsedBits(:ic_rg001) from dual", new OracleParameter[] { op_rg001 });
 			return Convert.ToInt32(re);
 		}
+
+
+		///选号寄存 保存过程(无附品) 
+		public static int ChooseBitSave(string rc001, string rc109, string rc002, string rc202, string rc003, string rc303, int rc004, int rc404,
+			string rc014, string rc050, string rc051, string rc052, string rc055, string rc099, DateTime rc140, string source,string handler
+			)
+		{
+			return ChooseBitSave(rc001, rc109, rc002, rc202, rc003, rc303, rc004, rc404, rc014, rc050, rc051, rc052, rc055, rc099, rc140, source,
+				null, null, null,handler);
+		}
+
+		//寄存办理
+		public static int ChooseBitSave(string rc001, string rc109, string rc002, string rc202, string rc003, string rc303, int rc004, int rc404,
+			string rc014, string rc050, string rc051, string rc052, string rc055, string rc099, DateTime rc140, string source,
+			string[] itemId_arry, decimal[] itemPrice_arry, int[] itemNums_arry,string handler
+			)
+		{
+			//逝者编号
+			OracleParameter op_rc001 = new OracleParameter("ic_rc001", OracleDbType.Varchar2, 10);
+			op_rc001.Direction = ParameterDirection.Input;
+			op_rc001.Value = rc001;
+			//寄存证号
+			OracleParameter op_rc109 = new OracleParameter("ic_rc109", OracleDbType.Varchar2, 20);
+			op_rc109.Direction = ParameterDirection.Input;
+			op_rc109.Value = rc109;
+
+			//性别
+			OracleParameter op_rc002 = new OracleParameter("ic_rc002", OracleDbType.Varchar2, 3);
+			op_rc002.Direction = ParameterDirection.Input;
+			op_rc002.Value = rc002;
+			//性别2
+			OracleParameter op_rc202 = new OracleParameter("ic_rc202", OracleDbType.Varchar2, 3);
+			op_rc202.Direction = ParameterDirection.Input;
+			op_rc202.Value = rc202;
+			//逝者姓名
+			OracleParameter op_rc003 = new OracleParameter("ic_rc003", OracleDbType.Varchar2, 20);
+			op_rc003.Direction = ParameterDirection.Input;
+			op_rc003.Value = rc003;
+			//逝者姓名2
+			OracleParameter op_rc303 = new OracleParameter("ic_rc303", OracleDbType.Varchar2, 20);
+			op_rc303.Direction = ParameterDirection.Input;
+			op_rc303.Value = rc303;
+			//年龄
+			OracleParameter op_rc004 = new OracleParameter("ic_rc004", OracleDbType.Int32);
+			op_rc004.Direction = ParameterDirection.Input;
+			op_rc004.Value = rc004;
+			//年龄2
+			OracleParameter op_rc404 = new OracleParameter("ic_rc404", OracleDbType.Int32);
+			op_rc404.Direction = ParameterDirection.Input;
+			op_rc404.Value = rc404;
+			//身份证号
+			OracleParameter op_rc014 = new OracleParameter("ic_rc014", OracleDbType.Varchar2, 18);
+			op_rc014.Direction = ParameterDirection.Input;
+			op_rc014.Value = rc014;
+			//联系人
+			OracleParameter op_rc050 = new OracleParameter("ic_rc050", OracleDbType.Varchar2, 50);
+			op_rc050.Direction = ParameterDirection.Input;
+			op_rc050.Value = rc050;
+
+
+			//联系电话
+			OracleParameter op_rc051 = new OracleParameter("ic_rc051", OracleDbType.Varchar2, 50);
+			op_rc051.Direction = ParameterDirection.Input;
+			op_rc051.Value = rc051;
+			//与逝者关系
+			OracleParameter op_rc052 = new OracleParameter("ic_rc052", OracleDbType.Varchar2, 10);
+			op_rc052.Direction = ParameterDirection.Input;
+			op_rc052.Value = rc052;
+			//联系地址
+			OracleParameter op_rc055 = new OracleParameter("ic_rc055", OracleDbType.Varchar2, 80);
+			op_rc055.Direction = ParameterDirection.Input;
+			op_rc055.Value = rc055;
+			//备注
+			OracleParameter op_rc099 = new OracleParameter("ic_rc099", OracleDbType.Varchar2, 200);
+			op_rc099.Direction = ParameterDirection.Input;
+			op_rc099.Value = rc099;
+
+			//寄存日期
+			OracleParameter op_rc140 = new OracleParameter("id_rc140", OracleDbType.Date);
+			op_rc140.Direction = ParameterDirection.Input;
+			op_rc140.Value = rc140;
+
+			//寄存来源
+			OracleParameter op_source = new OracleParameter("ic_source", OracleDbType.Varchar2, 3);
+			op_source.Direction = ParameterDirection.Input;
+			op_source.Value = source;
+
+			OracleParameter op_itemId_arry = null;
+			OracleParameter op_price_arry = null;
+			OracleParameter op_nums_arry = null;
+
+			if (itemId_arry != null)
+			{
+				//项目编号数组
+				op_itemId_arry = new OracleParameter("ic_itemId_arry", OracleDbType.Varchar2);
+				op_itemId_arry.Direction = ParameterDirection.Input;
+				op_itemId_arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+				op_itemId_arry.Size = itemId_arry.Count();
+				op_itemId_arry.Value = itemId_arry;
+
+				//单价数组
+				op_price_arry = new OracleParameter("in_itemPrice_arry", OracleDbType.Decimal);
+				op_price_arry.Direction = ParameterDirection.Input;
+				op_price_arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+				op_price_arry.Size = itemPrice_arry.Count();
+				op_price_arry.Value = itemPrice_arry;
+
+
+				//数量数组
+				op_nums_arry = new OracleParameter("in_itemNums_arry", OracleDbType.Int32);
+				op_nums_arry.Direction = ParameterDirection.Input;
+				op_nums_arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+				op_nums_arry.Size = itemNums_arry.Count();
+				op_nums_arry.Value = itemNums_arry;
+			}
+			 
+			//经办人
+			OracleParameter op_handler = new OracleParameter("ic_handler", OracleDbType.Varchar2, 10);
+			op_handler.Direction = ParameterDirection.Input;
+			op_handler.Value = handler;
+
+			if (itemId_arry == null)
+				return SqlAssist.ExecuteProcedure("pkg_business.prc_ChooseBitSave", new OracleParameter[]
+				{op_rc001 , op_rc109, op_rc002, op_rc202, op_rc003, op_rc303, op_rc004, op_rc404,
+				 op_rc014, op_rc050, op_rc051,op_rc052, op_rc055,op_rc099,op_rc140,
+				 op_source,op_handler});
+			else
+				return SqlAssist.ExecuteProcedure("pkg_business.prc_ChooseBitSave", new OracleParameter[]
+				{op_rc001 , op_rc109, op_rc002, op_rc202, op_rc003, op_rc303, op_rc004, op_rc404,
+				 op_rc014, op_rc050,op_rc051,op_rc052, op_rc055,op_rc099,op_rc140,
+				 op_source,op_itemId_arry,op_price_arry,op_nums_arry, op_handler});
+		}
+
+		/// <summary>
+		/// 微信支付 到账确认
+		/// </summary>
+		/// <returns></returns>
+		public static int wechatConfirm(string orderId, decimal payfee, string transactionId, DateTime paydate)
+		{
+			//订单id
+			OracleParameter op_orderId = new OracleParameter("ic_orderId", OracleDbType.Varchar2, 10);
+			op_orderId.Direction = ParameterDirection.Input;
+			op_orderId.Value = orderId;
+			//支付金额
+			OracleParameter op_payfee = new OracleParameter("in_payfee", OracleDbType.Decimal);
+			op_payfee.Direction = ParameterDirection.Input;
+			op_payfee.Value = payfee;
+			//微信支付Id
+			OracleParameter op_transId = new OracleParameter("ic_transactionId", OracleDbType.Varchar2, 50);
+			op_transId.Direction = ParameterDirection.Input;
+			op_transId.Value = transactionId;
+			//支付时间
+			OracleParameter op_paydate = new OracleParameter("id_paydate", OracleDbType.Date);
+			op_paydate.Direction = ParameterDirection.Input;
+			op_paydate.Value = paydate;
+
+
+
+			return SqlAssist.ExecuteProcedure("pkg_wechat.prc_wechat_Confirm", new OracleParameter[] { op_orderId, op_payfee, op_transId, op_paydate });
+		}
+
 	}
 }

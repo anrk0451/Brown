@@ -54,6 +54,11 @@ namespace Brown.Misc
         public static string TAX_SERVER_URL { get; set; }     //税务发票服务URL  
         public static string TAX_CASHIER { get; set; }        //税务发票-收款人
         public static string TAX_CHECKER { get; set; }        //税务发票-复核人
+        public static string TAX_EXTENSION { get; set; }      //税务发票-分机号  
+        public static string TAX_MACHINECODE { get; set; }    //税务发票-税控盘号
+        public static string TAX_PRINTASSIST_LOCATION { get; set; }   //税务发票-打印助手安装位置
+
+
         
         public static string WORKSTATIONID { get; set; }      //工作站ID
 

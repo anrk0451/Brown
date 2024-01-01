@@ -90,7 +90,7 @@ namespace Brown.BusinessObject
         {
             if (gridView1.SelectedRowsCount == 0)
             {
-                MessageBox.Show("请选择需要授权的记录!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请选择需要授权的记录!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -112,7 +112,7 @@ namespace Brown.BusinessObject
         {
             if (gridView1.SelectedRowsCount == 0)
             {
-                MessageBox.Show("请选择需要授权的记录!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                XtraMessageBox.Show("请选择需要授权的记录!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

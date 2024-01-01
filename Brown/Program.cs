@@ -17,7 +17,7 @@ namespace Brown
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static void Main(string[] args)
 		{
 			try
 			{
@@ -30,7 +30,9 @@ namespace Brown
                     Application.Exit();
                     return;
                 }
- 
+
+				if (args.Length > 0)
+					MessageBox.Show(args[0].Substring(8));
 
 				//设置应用程序处理异常方式：ThreadException处理
 				Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);

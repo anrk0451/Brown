@@ -76,7 +76,7 @@ namespace Brown.Action
 				return false;
 		}
 
-		public static int SaveTaxInfo(string url,string id,string appId,string addr,string bank,string fplx,string publicKey,string privateKey,string cashier,string checker)
+		public static int SaveTaxInfo(string url,string id,string appId,string addr,string bank,string fplx,string publicKey,string privateKey,string cashier,string checker )
 		{
 			//服务请求url
 			OracleParameter op_url = new OracleParameter("ic_url", OracleDbType.Varchar2, 50);
@@ -126,7 +126,7 @@ namespace Brown.Action
 			OracleParameter op_checker = new OracleParameter("ic_checker", OracleDbType.Varchar2, 20);
 			op_checker.Direction = ParameterDirection.Input;
 			op_checker.Value = checker;
-
+			 
 			return SqlAssist.ExecuteProcedure("pkg_business.prc_SaveTaxInfo", new OracleParameter[] {op_url, op_id,op_appId,op_addr,op_bank,op_fplx,op_public,op_private,op_cashier,op_checker});
 		}
 

@@ -63,8 +63,8 @@ namespace Brown.DataSet
 			//4.
 			Uc01 = new DataTable("Uc01");
 			this.Tables.Add(Uc01);
-			st01Adapter = new OracleDataAdapter("select * from uc01", SqlAssist.conn);
-			st01Adapter.Fill(Uc01);
+			uc01Adapter = new OracleDataAdapter("select * from uc01", SqlAssist.conn);
+			uc01Adapter.Fill(Uc01);
 
 			//5.系统商品服务项目
 			AllItem = new DataTable("AllItem");

@@ -116,11 +116,7 @@ namespace Brown
 
 				//连接打印进程
 				this.ConnectPrtServ();
-
-				//自动连接博思服务器
-				//string autoConnect = ConfigurationManager.OpenExeConfiguration(Application.ExecutablePath).AppSettings.Settings["ConnectFinInvoice"].Value.ToString();
-				//if (autoConnect == "1") FinInvoice.AutoConnectBosi();
-
+ 
 				//创建打印服务对象
 				//Envior.prtserv = new n_prtserv();
 
@@ -246,6 +242,12 @@ namespace Brown
 				}
 			}
 			reader.Dispose();
+
+			//税务发票-分机号
+			Envior.TAX_EXTENSION = ConfigurationManager.OpenExeConfiguration(Application.ExecutablePath).AppSettings.Settings["tax_extension"].Value.ToString();
+			Envior.TAX_MACHINECODE = ConfigurationManager.OpenExeConfiguration(Application.ExecutablePath).AppSettings.Settings["tax_machinecode"].Value.ToString();
+			Envior.TAX_PRINTASSIST_LOCATION = "nprint.exe ";
+
 		}
 
 		/// <summary>
@@ -716,10 +718,30 @@ namespace Brown
 			frm_login.Dispose();
 			bsi_userName.Caption = Envior.cur_userName;
 		}
-
+		/// <summary>
+		/// 数据备份
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void barButtonItem38_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			//Tools.GetIpAddress();
+			if (Envior.cur_userId != AppInfo.ROOTID)
+			{
+				XtraMessageBox.Show("权限不足!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+			saveFileDialog1.Filter = "bin files(*.bin)|*.bin|All files (*.*)|*.*";
+			saveFileDialog1.RestoreDirectory = true;
+			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				SplashScreenManager.ShowDefaultWaitForm("正在备份", "请稍候....");
+				string fname;
+				fname = saveFileDialog1.FileName;
+				BackupSet bset = new BackupSet();
+				bset.Backup(fname);
+				SplashScreenManager.CloseDefaultWaitForm();
+				XtraMessageBox.Show("备份成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 		}
 
 		/// <summary>
@@ -733,23 +755,28 @@ namespace Brown
 			openBusinessObject("WorkStationList");
 		}
 
-		/// <summary>
-		/// 处理窗口消息
-		/// </summary>
-		/// <param name="m"></param>
-		//protected override void DefWndProc(ref Message m)
-		//{
-		//	switch (m.Msg)
-		//	{
-		//		case 10001:
-		//			int commandNum = m.WParam.ToInt32();
-		//			string responseText = PrtServAction.GetResponseText(commandNum);
-		//			XtraMessageBox.Show(responseText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-		//			break;
-		//		default:
-		//			base.DefWndProc(ref m);///调用基类函数处理非自定义消息。
-		//			break;
-		//	}
-		//}
-	}
+        private void barButtonItem40_ItemClick(object sender, ItemClickEventArgs e)
+        {
+			openBusinessObject("WeChatCheck");
+		}
+
+        /// <summary>
+        /// 处理窗口消息
+        /// </summary>
+        /// <param name="m"></param>
+        //protected override void DefWndProc(ref Message m)
+        //{
+        //	switch (m.Msg)
+        //	{
+        //		case 10001:
+        //			int commandNum = m.WParam.ToInt32();
+        //			string responseText = PrtServAction.GetResponseText(commandNum);
+        //			XtraMessageBox.Show(responseText, "提示", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+        //			break;
+        //		default:
+        //			base.DefWndProc(ref m);///调用基类函数处理非自定义消息。
+        //			break;
+        //	}
+        //}
+    }
 }

@@ -64,11 +64,13 @@ namespace Brown.DataSet
 			DataColumn RG030 = new DataColumn("RG030", typeof(string));  //起始位置 0-左上 1-左下 2-右上 3-右下
 			DataColumn RG031 = new DataColumn("RG031", typeof(string));  //起始方向 0-行 1-列
 			DataColumn RG033 = new DataColumn("RG033", typeof(string));  //排列顺序 0-顺序 1-蛇形
-			DataColumn RG100 = new DataColumn("RG100", typeof(string));	 //排列方案 0-常规 1-智能架
+			DataColumn RG100 = new DataColumn("RG100", typeof(string));  //排列方案 0-常规 1-智能架
+			DataColumn RG099 = new DataColumn("RG099", typeof(string));  //是否自动选号 1-yes 0-no
+
 			DataColumn STATUS_2 = new DataColumn("STATUS", typeof(string));
 
 			Rg01.Columns.AddRange(new DataColumn[]
-				{ RG001,RG002,RG003,RG009,RG010,RG011,RG020,RG021,RG030,RG031,RG033,STATUS_2,RG100});
+				{ RG001,RG002,RG003,RG009,RG010,RG011,RG020,RG021,RG030,RG031,RG033,STATUS_2,RG100,RG099});
 			Rg01.PrimaryKey = new DataColumn[] { RG001 };  //设置主键
 
 			this.Tables.Add(Rg01);

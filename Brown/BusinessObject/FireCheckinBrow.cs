@@ -213,7 +213,7 @@ namespace Brown.BusinessObject
 			int rowHandle = gridView1.FocusedRowHandle; ;
 			if (rowHandle < 0) return;
 
-			if (!AppAction.CheckRight("登记信息修改", gridView1.GetRowCellValue(rowHandle,"AC100").ToString())) return;
+			if (!AppAction.CheckRight("登记信息删除", gridView1.GetRowCellValue(rowHandle,"AC100").ToString())) return;
 
 			string s_ac001 = gridView1.GetRowCellValue(rowHandle, "AC001").ToString();
 			if (MessageBox.Show("确认要删除登记信息吗?", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Cancel) return;

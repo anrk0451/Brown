@@ -11,6 +11,7 @@ using DevExpress.XtraEditors;
 using Brown.BaseObject;
 using Oracle.ManagedDataAccess.Client;
 using Brown.Forms;
+using DevExpress.XtraPrinting;
 
 namespace Brown.BusinessObject
 {
@@ -108,6 +109,38 @@ namespace Brown.BusinessObject
 					e.Info.Appearance.BackColor = System.Drawing.Color.AntiqueWhite;
 					e.Info.DisplayText = "G" + e.RowHandle.ToString();
 				}
+			}
+		}
+		/// <summary>
+		/// 查找
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void barButtonItem2_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+		{
+			if (gridView1.IsFindPanelVisible)
+				gridView1.HideFindPanel();
+			else
+				gridView1.ShowFindPanel();
+		}
+		/// <summary>
+		/// 导出
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void barButtonItem7_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+		{
+			SaveFileDialog fileDialog = new SaveFileDialog();
+			fileDialog.Title = "导出Excel";
+			fileDialog.Filter = "Excel文件(*.xlsx)|*.xlsx";
+
+			DialogResult dialogResult = fileDialog.ShowDialog(this);
+			if (dialogResult == DialogResult.OK)
+			{
+				DevExpress.XtraPrinting.XlsxExportOptions options = new DevExpress.XtraPrinting.XlsxExportOptions();
+				options.TextExportMode = TextExportMode.Text;//设置导出模式为文本
+				gridControl1.ExportToXlsx(fileDialog.FileName, options);
+				XtraMessageBox.Show("导出成功！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 	}

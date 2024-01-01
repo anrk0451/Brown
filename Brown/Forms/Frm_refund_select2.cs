@@ -13,6 +13,7 @@ using Oracle.ManagedDataAccess.Client;
 using Brown.Action;
 using Brown.Domain;
 using Brown.Misc;
+using System.Threading;
 
 namespace Brown.Forms
 {
@@ -114,18 +115,64 @@ namespace Brown.Forms
                     XtraMessageBox.Show("退费结算完成!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     string s_cuname = SqlAssist.ExecuteScalar("select fa003 from fa01 where fa001='" + s_sa010 + "'").ToString();
                     //获取税务客户信息
-                    Frm_TaxClientInfo frm_taxClient = new Frm_TaxClientInfo(s_cuname);
+                    Frm_TaxClientInfo frm_taxClient = new Frm_TaxClientInfo(s_cuname,s_fa001);
                     if (frm_taxClient.ShowDialog() == DialogResult.OK)
                     {
                         TaxClientInfo clientInfo = frm_taxClient.swapdata["taxclientinfo"] as TaxClientInfo;
-                        if (TaxInvoice.GetNextInvoiceNo() > 0)
+                        
+                        if (TaxInvoice2023.GetNextInvoiceNo() > 0)
                         {
                             if (XtraMessageBox.Show("下一张税票代码:" + Envior.NEXT_BILL_CODE + "\r\n" + "票号:" + Envior.NEXT_BILL_NUM + ",是否继续?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                TaxInvoice.Invoice(s_fa001, clientInfo);
+                                if (TaxInvoice2023.Refund(s_fa001) > 0)
+                                {
+                                    XtraMessageBox.Show("税务发票请求提交成功!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    bool b_exit = false;
+                                    int i_count = 0;
+                                    this.Cursor = Cursors.WaitCursor;
+                                    while (!b_exit && i_count < 8)
+                                    {
+                                        i_count++;
+                                        if (TaxInvoice2023.QueryInvoice(s_fa001) > 0 && TaxInvoice2023.getInvoiceStatus(s_fa001) == "2")
+                                        {
+                                            b_exit = true;
+                                        }
+                                        Thread.Sleep(600 * (i_count - 1));
+                                    }
+                                    this.Cursor = Cursors.Arrow;
+
+
+                                    if (TaxInvoice2023.getInvoiceStatus(s_fa001) == "2")
+                                    {
+                                        string s_data = TaxInvoice2023.getInvoiceNo(s_fa001);
+                                        string s_code = s_data.Substring(0, s_data.Length - 8);
+                                        string s_no = s_data.Substring(s_data.Length - 8, 8);
+                                        XtraMessageBox.Show("发票开具成功!\r\n" + "税票代码:" + s_code + "\r\n" + "票号:" + s_no, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        if (XtraMessageBox.Show("现在打印税务发票吗?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                        {
+                                            string printId = TaxInvoice2023.getInvoicePrintId(s_fa001);
+                                            if (!string.IsNullOrEmpty(printId))
+                                            {
+                                                //打印发票
+                                                TaxInvoice2023.print_Invoice(printId, "2");
+                                                //打印清单//////
+                                                if (TaxInvoice2023.getTaxItems(s_fa001) > AppInfo.TAXITEMCOUNT && XtraMessageBox.Show("现在打印【税务发票清单】吗?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                                {
+                                                    TaxInvoice2023.print_Invoice(printId, "3");
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        XtraMessageBox.Show("未查询到发票状态,请联系管理员或稍候再次查询!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    }
+                                }
+                                else
+                                {
+                                    XtraMessageBox.Show("请联系管理员或稍后进行补开发票!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
                             }
-                            this.DialogResult = DialogResult.OK;
-                            this.Close();
                         }
                     }
                 }

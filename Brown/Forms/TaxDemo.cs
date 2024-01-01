@@ -18,6 +18,10 @@ using Newtonsoft.Json;
 using Brown.Misc;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Drawing.Printing;
+using Brown.Domain;
+using System.Diagnostics;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Brown.Forms
 {
@@ -475,7 +479,7 @@ namespace Brown.Forms
 			 
 			sendmsg.Add("app_name", "牡丹江市第二殡仪馆");
 			//sendmsg.Add("app_name", "鸡西市殡葬事务服务中心");
-			//sendmsg.Add("app_name", "牡丹江市龙凤坡公墓服务站");
+			//sendmsg.Add("app_name", "牡丹江市龙凤公墓服务站");
 			//3.将请求报文转换为Json 字符串 并整体用公钥 加密
 			string s_msg_json = Tools.ConvertObjectToJson(sendmsg);
 			string s_fullmi = Tools.AesEncrypt(s_msg_json, Envior.TAX_PUBLIC_KEY);
@@ -753,105 +757,8 @@ namespace Brown.Forms
 		/// <param name="e"></param>
         private void simpleButton24_Click(object sender, EventArgs e)
         {
-			string s_appkey = "0d3ae7af6c20c68a89390a6ec445";
-
-
-			//业务数据
-			Dictionary<string, object> bdata = new Dictionary<string, object>();
-			Dictionary<string, Dictionary<string, object>> msg = new Dictionary<string, Dictionary<string, object>>();
-
-			bdata.Add("bill_batch_code", "3910");        //发票注册号
-			bdata.Add("bill_no", "00356017");            //发票号
-			bdata.Add("scarlet_bill_code", "");                    //红票票据种类编码
-			bdata.Add("scarlet_bill_batch_code", "3910");          //红票票据注册号
-			bdata.Add("scarlet_bill_no", "00356018");              //红票票据号
-			bdata.Add("writeoff_reason", "测试3");                 //冲红原因
-
-			List<Dictionary<string, object>> detail_list = new List<Dictionary<string, object>>();
-			Dictionary<string, object> detail_data = new Dictionary<string, object>();
-
-			detail_data = new Dictionary<string, object>();
-			detail_data.Add("item_code", "10304490802");   //项目名-火化
-			detail_data.Add("refund_amt", 168);            //退费金额
-			 
-			detail_list.Add(detail_data);
-			bdata.Add("item_details", detail_list);
-
-			msg.Add("message", bdata);
-
-
-			memoEdit1.Text = Tools.ConvertObjectToJson(msg);
-
-
-			string s_bdata_base64 = Tools.EncodeBase64("utf-8", Tools.ConvertObjectToJson(msg));
-			memoEdit2.Text = s_bdata_base64;
-
-
-			C_params c_params = new C_params();
-			c_params.agency_code = "021099001";
-			c_params.app_id = "MDJSDYBYG7838387";
-			c_params.format = "json";
-			c_params.datetime = "20201031185418159";
-			c_params.encryption = "0";
-			c_params.message_id = "0.75760152868295749";
-			c_params.message = s_bdata_base64;
-			c_params.method = "invoice.p.writeOff.do";
-			c_params.region_code = "231001";
-			c_params.version = "1.0.1";
-
-			StringBuilder s_big = new StringBuilder(100);
-			s_big.Append(c_params.agency_code);
-			s_big.Append(c_params.app_id);
-			s_big.Append(c_params.datetime);
-			s_big.Append(c_params.encryption);
-			s_big.Append(c_params.format);
-			s_big.Append(c_params.message);
-			s_big.Append(c_params.message_id);
-			s_big.Append(c_params.method);
-			s_big.Append(c_params.region_code);
-			s_big.Append(c_params.version);
-
-			string s_1 = s_appkey + s_big.ToString() + s_appkey;
-			string s_md5 = Tools.EncryptWithMD5(s_1).ToUpper();
-
-			StringBuilder sb_url = new StringBuilder(100);
-			//sb_url.Append("http://111.41.51.157:7001/mergestandard/agency3/rest.do");
-			sb_url.Append("agency_code=" + c_params.agency_code + "&");
-			sb_url.Append("app_id=" + c_params.app_id + "&");
-			sb_url.Append("datetime=" + c_params.datetime + "&");
-			sb_url.Append("encryption=" + c_params.encryption + "&");
-			sb_url.Append("format=" + c_params.format + "&");
-			sb_url.Append("message=" + s_bdata_base64 + "&");
-			sb_url.Append("message_id=" + c_params.message_id + "&");
-			sb_url.Append("method=" + c_params.method + "&");
-			sb_url.Append("region_code=" + c_params.region_code + "&");
-			sb_url.Append("security=" + s_md5 + "&");
-			sb_url.Append("version=" + c_params.version);
-
-
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://111.41.51.157:7001/mergestandard/agency3/rest.do");
-			request.Method = "POST";
-			request.ContentType = "application/x-www-form-urlencoded";
-
-			memoEdit3.Text = sb_url.ToString();
-			byte[] buf = System.Text.Encoding.GetEncoding("UTF-8").GetBytes(sb_url.ToString());
-			request.ContentLength = buf.Length;
-
-			Stream myRequestStream = request.GetRequestStream();
-			myRequestStream.Write(buf, 0, buf.Length);
-
-			myRequestStream.Close();
-
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-			Stream myResponseStream = response.GetResponseStream();
-			StreamReader myStreamReader = new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
-			string retString = myStreamReader.ReadToEnd();
-			myStreamReader.Close();
-			myResponseStream.Close();
-
-			memoEdit4.Text = retString;
-
-			memoEdit5.Text = Tools.DecodeBase64("utf-8", retString);
+			///FinInvoice.InvoiceElec_Refund("");
+			//FinInvoice.InvoiceElec_Refund();
 		}
 		/// <summary>
 		/// 获取电子票据号
@@ -903,7 +810,7 @@ namespace Brown.Forms
 
 		private void simpleButton27_Click(object sender, EventArgs e)
 		{
-			memoEdit6.Text = FinInvoice.GetInvoiceImageBase64("23013321", "0000255805");
+			memoEdit6.Text = FinInvoice.GetInvoiceImageBase64("23013321", "0000338491");
 
 			string base64 = memoEdit6.Text;
 
@@ -934,12 +841,12 @@ namespace Brown.Forms
 			//PrintPreviewDialog ppd = new PrintPreviewDialog();
 			PrintDocument pd = new PrintDocument();
 			//设置边距
-			Margins margin = new Margins(60, 20, 60, 30);
+			Margins margin = new Margins(10, 10, 10, 10);
 			pd.DefaultPageSettings.Margins = margin;
-			pd.DefaultPageSettings.Landscape = true;
+			pd.DefaultPageSettings.Landscape = false;
 			////纸张设置默认
-			//PaperSize pageSize = new PaperSize("First custom size", 826, 1129);
-			//pd.DefaultPageSettings.PaperSize = pageSize;
+			PaperSize pageSize = new PaperSize("First custom size", 240, 140);
+			pd.DefaultPageSettings.PaperSize = pageSize;
 			//打印事件设置
 			pd.PrintPage += new PrintPageEventHandler(this.pd_PrintPage);
 			//ppd.Document = pd;
@@ -982,5 +889,69 @@ namespace Brown.Forms
 			else
 				XtraMessageBox.Show("初始化失败!");
 		}
-	}
+
+		private void simpleButton31_Click(object sender, EventArgs e)
+		{
+			if (FinInvoice.FinInvoiceLog("0000000000", "0133", "0000255805", "23013321", 0, "0000000000") > 0)
+				XtraMessageBox.Show("日志成功");
+			else
+				XtraMessageBox.Show("日志失败!");
+
+		}
+
+		private static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+		{
+			return true;
+		}
+
+
+		private void simpleButton32_Click(object sender, EventArgs e)
+        {
+			// 连接地址
+			string strUrl = "https://192.168.2.10/m2023/api/tax/getNextBillNo/0/889914681884/";
+			HttpWebRequest request = null;
+
+			try
+            {
+				ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+				request = WebRequest.Create(strUrl) as HttpWebRequest;
+				request.ProtocolVersion = HttpVersion.Version10;
+
+				// 设置请求方式
+				request.Method = "GET";
+				// 设置请求头
+				//request.Headers.Add("key", "value");
+				// 网络请求打开
+				using (WebResponse wr = request.GetResponse())
+				{
+					// 网络返回
+					HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+					// 设置返回编码格式与读取流
+					StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+					// 读取返回的信息流
+					string content = reader.ReadToEnd();
+					// 进行json的实体映射
+					memoEdit1.Text = content;
+
+					TaxResult taxResult = JsonConvert.DeserializeObject<TaxResult>(content);
+					memoEdit2.Text = taxResult.data;
+				}
+
+			}
+            catch (Exception ex)
+            {
+				XtraMessageBox.Show(ex.Message);
+            }			 
+		}
+
+
+
+
+
+
+        private void simpleButton33_Click(object sender, EventArgs e)
+        {
+			Process.Start("C:\\Program Files (x86)\\诺诺\\诺诺打印助手升级版\\nprint.exe","webprint:2," + "A6C129FB271C277D581B842D86831880B65A3A1C7B9A755508F1F3C72A0CE72A3E28D06E1C31BF4A");
+		}
+    }
 }

@@ -732,11 +732,11 @@ namespace Brown.BusinessObject
 				rgset.ly01Adapter.Update(rgset.Ly01);
 				rgset.bi01Adapter.Update(rgset.Bi01);
 
-				MessageBox.Show("保存成功!", "提示");
+				XtraMessageBox.Show("保存成功!", "提示",MessageBoxButtons.OK,MessageBoxIcon.Information);
 			}
 			catch (Exception ee)
 			{
-				MessageBox.Show("保存数据错误!\n" + ee.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				XtraMessageBox.Show("保存数据错误!\n" + ee.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			this.RefreshData();
 		}

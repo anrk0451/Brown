@@ -362,12 +362,12 @@ namespace Brown.BusinessObject
 			int row = gridView1.LocateByValue("SA002", "07");
 			if (row >= 0)
 			{
-				if (gridView1.GetRowCellValue(row, "SA008").ToString() == "1")  //已经结算
-				{
-					XtraMessageBox.Show("灵车已经办理且已结算!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					return;
-				}
-				if (XtraMessageBox.Show("已经办理灵车业务,是否替换?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+				//if (gridView1.GetRowCellValue(row, "SA008").ToString() == "1")  //已经结算
+				//{
+				//	XtraMessageBox.Show("灵车已经办理且已结算!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				//	return;
+				//}
+				if (XtraMessageBox.Show("已经办理灵车业务,是否继续?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 					return;
 			}
 			Frm_business07 frm_lc = new Frm_business07();
@@ -391,16 +391,22 @@ namespace Brown.BusinessObject
 		{
 			//检查是否已有
 			int row = gridView1.LocateByValue("SA002", "06");
-			if (row >= 0)
+			if (FireAction.FireIsSettled(AC001) == "1")
 			{
-				if (gridView1.GetRowCellValue(row, "SA008").ToString() == "1")  //已经结算
-				{
-					XtraMessageBox.Show("火化已经办理且已结算!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					return;
-				}
-				if (XtraMessageBox.Show("已经办理火化业务,是否替换?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-					return;
+				XtraMessageBox.Show("已经办理火化且结算完成,不能继续办理业务!", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
 			}
+
+			//if (row >= 0)
+			//{
+			//	if (gridView1.GetRowCellValue(row, "SA008").ToString() == "1")  //已经结算
+			//	{
+			//		XtraMessageBox.Show("火化已经办理且已结算!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			//		return;
+			//	}
+			//	if (XtraMessageBox.Show("已经办理火化业务,是否替换?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+			//		return;
+			//}
 			Frm_business06 frm_hh = new Frm_business06();
 			frm_hh.swapdata["dataset"] = business_ds;
 			frm_hh.swapdata["AC001"] = AC001;

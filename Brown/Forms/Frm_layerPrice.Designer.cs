@@ -41,46 +41,49 @@
 			// 
 			// simpleButton3
 			// 
-			this.simpleButton3.Appearance.BackColor = System.Drawing.Color.Blue;
+			this.simpleButton3.Appearance.BackColor = System.Drawing.Color.SteelBlue;
 			this.simpleButton3.Appearance.ForeColor = System.Drawing.Color.White;
 			this.simpleButton3.Appearance.Options.UseBackColor = true;
 			this.simpleButton3.Appearance.Options.UseForeColor = true;
 			this.simpleButton3.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
-			this.simpleButton3.Location = new System.Drawing.Point(4, 368);
+			this.simpleButton3.Location = new System.Drawing.Point(3, 243);
 			this.simpleButton3.LookAndFeel.UseDefaultLookAndFeel = false;
+			this.simpleButton3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.simpleButton3.Name = "simpleButton3";
-			this.simpleButton3.Size = new System.Drawing.Size(117, 29);
+			this.simpleButton3.Size = new System.Drawing.Size(88, 22);
 			this.simpleButton3.TabIndex = 11;
 			this.simpleButton3.Text = "复制当前价格";
 			this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
 			// 
 			// simpleButton2
 			// 
-			this.simpleButton2.Appearance.BackColor = System.Drawing.Color.Gray;
+			this.simpleButton2.Appearance.BackColor = System.Drawing.Color.LimeGreen;
 			this.simpleButton2.Appearance.ForeColor = System.Drawing.Color.White;
 			this.simpleButton2.Appearance.Options.UseBackColor = true;
 			this.simpleButton2.Appearance.Options.UseForeColor = true;
 			this.simpleButton2.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
 			this.simpleButton2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.simpleButton2.Location = new System.Drawing.Point(382, 368);
+			this.simpleButton2.Location = new System.Drawing.Point(286, 243);
 			this.simpleButton2.LookAndFeel.UseDefaultLookAndFeel = false;
+			this.simpleButton2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.simpleButton2.Name = "simpleButton2";
-			this.simpleButton2.Size = new System.Drawing.Size(80, 29);
+			this.simpleButton2.Size = new System.Drawing.Size(60, 22);
 			this.simpleButton2.TabIndex = 10;
 			this.simpleButton2.Text = "取消";
 			this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
 			// 
 			// simpleButton1
 			// 
-			this.simpleButton1.Appearance.BackColor = System.Drawing.Color.Blue;
+			this.simpleButton1.Appearance.BackColor = System.Drawing.Color.SteelBlue;
 			this.simpleButton1.Appearance.ForeColor = System.Drawing.Color.White;
 			this.simpleButton1.Appearance.Options.UseBackColor = true;
 			this.simpleButton1.Appearance.Options.UseForeColor = true;
 			this.simpleButton1.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
-			this.simpleButton1.Location = new System.Drawing.Point(257, 368);
+			this.simpleButton1.Location = new System.Drawing.Point(193, 243);
 			this.simpleButton1.LookAndFeel.UseDefaultLookAndFeel = false;
+			this.simpleButton1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.simpleButton1.Name = "simpleButton1";
-			this.simpleButton1.Size = new System.Drawing.Size(119, 29);
+			this.simpleButton1.Size = new System.Drawing.Size(89, 22);
 			this.simpleButton1.TabIndex = 9;
 			this.simpleButton1.Text = "确定";
 			this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
@@ -88,18 +91,22 @@
 			// gridControl1
 			// 
 			this.gridControl1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.gridControl1.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.gridControl1.Location = new System.Drawing.Point(0, 0);
 			this.gridControl1.MainView = this.gridView1;
+			this.gridControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.gridControl1.Name = "gridControl1";
 			this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemTextEdit1});
-			this.gridControl1.Size = new System.Drawing.Size(485, 344);
+			this.gridControl1.Size = new System.Drawing.Size(364, 229);
 			this.gridControl1.TabIndex = 8;
 			this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
 			// 
 			// gridView1
 			// 
+			this.gridView1.DetailHeight = 233;
+			this.gridView1.FixedLineWidth = 1;
 			this.gridView1.GridControl = this.gridControl1;
 			this.gridView1.Name = "gridView1";
 			this.gridView1.OptionsBehavior.AllowAddRows = DevExpress.Utils.DefaultBoolean.False;
@@ -129,13 +136,14 @@
 			// 
 			// Frm_layerPrice
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(485, 409);
+			this.ClientSize = new System.Drawing.Size(364, 273);
 			this.Controls.Add(this.simpleButton3);
 			this.Controls.Add(this.simpleButton2);
 			this.Controls.Add(this.simpleButton1);
 			this.Controls.Add(this.gridControl1);
+			this.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.Name = "Frm_layerPrice";
 			this.Text = "层定价";
 			this.Load += new System.EventHandler(this.Frm_layerPrice_Load);

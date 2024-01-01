@@ -117,10 +117,10 @@ namespace Brown.BusinessObject
 			if (!AppAction.CheckRight("寄存登记")) return;
 
 			Frm_fromFire frm_fromFire = new Frm_fromFire();
-			frm_fromFire.swapdata["BusinessObject"] = this;
+			//frm_fromFire.swapdata["BusinessObject"] = this;
 			if (frm_fromFire.ShowDialog() == DialogResult.OK)
 			{
-				string s_ac001 = this.swapdata["AC001"].ToString();
+				string s_ac001 = frm_fromFire.swapdata["AC001"].ToString();
 				frm_fromFire.Dispose();
 
 				Frm_Register regform = new Frm_Register();
@@ -133,7 +133,8 @@ namespace Brown.BusinessObject
 				}
 				regform.Dispose();
 			}
-			frm_fromFire.Dispose();
+			else
+				frm_fromFire.Dispose();
 		}
 
 		/// <summary>
@@ -450,6 +451,15 @@ namespace Brown.BusinessObject
 				gridView1.EndUpdate();
 				this.Cursor = Cursors.Arrow;
 			}
+		}
+		/// <summary>
+		/// 选号登记
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void barButtonItem17_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+		{
+
 		}
 	}
 }

@@ -1052,6 +1052,79 @@ namespace Brown.Action
 			return -1;
 		}
 
+		/// <summary>
+		/// 保存税务开票信息
+		/// </summary>
+		/// <returns></returns>
+		public static int SaveTaxBill(string fa001,string buyer,string btax,string bbank,string baddress,string phone,string casher,string checker,string extension,string machineCode,string invoicer,string ws001)
+        {
+			//结算流水号
+			OracleParameter op_fa001 = new OracleParameter("ic_fa001", OracleDbType.Varchar2, 10);
+			op_fa001.Direction = ParameterDirection.Input;
+			op_fa001.Value = fa001;
+
+			//购方名称
+			OracleParameter op_buyer = new OracleParameter("ic_buyer", OracleDbType.Varchar2, 200);
+			op_buyer.Direction = ParameterDirection.Input;
+			op_buyer.Value = buyer;
+
+			//购方税号
+			OracleParameter op_btax = new OracleParameter("ic_btax", OracleDbType.Varchar2, 50);
+			op_btax.Direction = ParameterDirection.Input;
+			op_btax.Value = btax;
+
+			//购方银行账号
+			OracleParameter op_bbank = new OracleParameter("ic_bbank", OracleDbType.Varchar2, 200);
+			op_bbank.Direction = ParameterDirection.Input;
+			op_bbank.Value = bbank;
+
+			//购方地址及电话
+			OracleParameter op_baddress = new OracleParameter("ic_baddress", OracleDbType.Varchar2, 200);
+			op_baddress.Direction = ParameterDirection.Input;
+			op_baddress.Value = baddress;
+
+			//购方手机号
+			OracleParameter op_bphone = new OracleParameter("ic_phone", OracleDbType.Varchar2, 50);
+			op_bphone.Direction = ParameterDirection.Input;
+			op_bphone.Value = phone;
+
+
+			//收款人
+			OracleParameter op_casher = new OracleParameter("ic_casher", OracleDbType.Varchar2, 50);
+			op_casher.Direction = ParameterDirection.Input;
+			op_casher.Value = casher;
+
+			//复核人
+			OracleParameter op_checker = new OracleParameter("ic_checker", OracleDbType.Varchar2, 50);
+			op_checker.Direction = ParameterDirection.Input;
+			op_checker.Value = checker;
+
+			//分机号
+			OracleParameter op_extension = new OracleParameter("ic_extension", OracleDbType.Varchar2, 20);
+			op_extension.Direction = ParameterDirection.Input;
+			op_extension.Value = extension;
+
+			//设备号
+			OracleParameter op_machineCode = new OracleParameter("ic_machineCode", OracleDbType.Varchar2, 20);
+			op_machineCode.Direction = ParameterDirection.Input;
+			op_machineCode.Value = machineCode;
+
+			//开票人
+			OracleParameter op_invoicer = new OracleParameter("ic_invoicer", OracleDbType.Varchar2, 20);
+			op_invoicer.Direction = ParameterDirection.Input;
+			op_invoicer.Value = invoicer;
+
+			//开票工作站
+			OracleParameter op_ws001 = new OracleParameter("ic_workstationId", OracleDbType.Varchar2, 10);
+			op_ws001.Direction = ParameterDirection.Input;
+			op_ws001.Value = ws001;
+
+			return SqlAssist.ExecuteProcedure("pkg_business.prc_SaveTaxBillInfo", new OracleParameter[]
+			{op_fa001,op_buyer,op_btax,op_bbank,op_baddress,op_bphone, op_casher,op_checker,op_extension,op_machineCode, op_invoicer,op_ws001 });
+
+
+		}
+
 
 	}
 }

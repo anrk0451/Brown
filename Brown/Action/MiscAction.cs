@@ -26,6 +26,23 @@ namespace Brown.Action
 			return SqlAssist.ExecuteScalar("select pkg_business.fun_getItemFullName(:itemId) from dual", new OracleParameter[] { op_itemId }).ToString();
 		}
 
+		public static void DrawGridLineNo(object sender, DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventArgs e)
+		{
+			e.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+			if (e.Info.IsRowIndicator)
+			{
+				if (e.RowHandle >= 0)
+				{
+					e.Info.DisplayText = (e.RowHandle + 1).ToString();
+				}
+				else if (e.RowHandle < 0 && e.RowHandle > -1000)
+				{
+					e.Info.Appearance.BackColor = System.Drawing.Color.AntiqueWhite;
+					e.Info.DisplayText = "G" + e.RowHandle.ToString();
+				}
+			}
+		}
+
 		/// <summary>
 		/// 返回服务或商品单价
 		/// </summary>
@@ -550,7 +567,7 @@ namespace Brown.Action
 				if (int.Parse(appcode.Value.ToString()) < 0)
 				{
 					trans.Rollback();
-					MessageBox.Show(apperror.Value.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					XtraMessageBox.Show(apperror.Value.ToString(), "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return -1;
 				}
 
@@ -560,7 +577,7 @@ namespace Brown.Action
 			catch (InvalidOperationException e)
 			{
 				trans.Rollback();
-				MessageBox.Show("执行过程错误!\n" + e.ToString(), "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				XtraMessageBox.Show("执行过程错误!\n" + e.ToString(), "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return -1;
 			}
 			finally
@@ -773,6 +790,21 @@ namespace Brown.Action
 
 			return Convert.ToInt32(SqlAssist.ExecuteFunction("pkg_report.fun_Calc_Age", new OracleParameter[] { op_birth }).ToString());
 		}
+		/// <summary>
+		/// 判断税务发票是否可以作废 1-yes 0-no
+		/// </summary>
+		/// <param name="fa001"></param>
+		/// <returns></returns>
+		public static int TaxInvoiceCanCanceled(string fa001)
+		{
+			//结算流水号
+			OracleParameter op_fa001 = new OracleParameter("ic_fa001", OracleDbType.Varchar2, 10);
+			op_fa001.Direction = ParameterDirection.Input;
+			op_fa001.Value = fa001;
+
+			return Convert.ToInt32(SqlAssist.ExecuteFunction("pkg_business.fun_TaxInvoiceCanCanceled", new OracleParameter[] { op_fa001 }).ToString());
+		}
+
 
 		/// <summary>
 		/// 更新身份证照片
@@ -794,6 +826,86 @@ namespace Brown.Action
 
 			return SqlAssist.ExecuteNonQuery(s_sql, new OracleParameter[] { op_ic020, op_ic001 });
 		}
+
+		/// <summary>
+		/// 退费结算
+		/// </summary>
+		/// <param name="fa001"></param>
+		/// <param name="handler"></param>
+		/// <param name="memo"></param>
+		/// <param name="ofa001"></param>
+		/// <returns></returns>
+		public static int FinRefundSettle(string fa001,string handler, string memo, string ofa001)
+		{
+			//结算流水号
+			OracleParameter op_fa001 = new OracleParameter("ic_fa001", OracleDbType.Varchar2, 10);
+			op_fa001.Direction = ParameterDirection.Input;
+			op_fa001.Value = fa001;
+			 
+			//经办人
+			OracleParameter op_handler = new OracleParameter("ic_handler", OracleDbType.Varchar2, 10);
+			op_handler.Direction = ParameterDirection.Input;
+			op_handler.Value = handler;
+
+			//备注
+			OracleParameter op_memo = new OracleParameter("ic_memo", OracleDbType.Varchar2, 80);
+			op_memo.Direction = ParameterDirection.Input;
+			op_memo.Value = memo;
+
+			//原结算流水号
+			OracleParameter op_ofa001 = new OracleParameter("ic_ofa001", OracleDbType.Varchar2, 10);
+			op_ofa001.Direction = ParameterDirection.Input;
+			op_ofa001.Value = ofa001;
+
+			return SqlAssist.ExecuteProcedure("pkg_business.prc_RefundSettle_Fin",
+				new OracleParameter[] { op_fa001,op_handler, op_memo, op_ofa001 });
+		}
+
+
+		/// <summary>
+		/// 生成微信对账临时数据
+		/// </summary>
+		/// <returns></returns>
+		public static int genWechatCheckData(string[] wxpayId_arry, string[] orderId_arry, DateTime[] orderDate, string[] scene_arry, string[] state_arry, decimal[] payfee_arry)
+		{
+			//微信支付Id 数组
+			OracleParameter op_wxpayId_arry = new OracleParameter("ic_wxpay_id_arry", OracleDbType.Varchar2);
+			op_wxpayId_arry.Direction = ParameterDirection.Input;
+			op_wxpayId_arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+			op_wxpayId_arry.Value = wxpayId_arry;
+			//订单Id 数组
+			OracleParameter op_orderId_arry = new OracleParameter("ic_order_id_arry", OracleDbType.Varchar2);
+			op_orderId_arry.Direction = ParameterDirection.Input;
+			op_orderId_arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+			op_orderId_arry.Value = orderId_arry;
+			//支付日期 数组
+			OracleParameter op_payDate_arry = new OracleParameter("id_paydate_arry", OracleDbType.Date);
+			op_payDate_arry.Direction = ParameterDirection.Input;
+			op_payDate_arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+			op_payDate_arry.Value = orderDate;
+			//支付场景 数组
+			OracleParameter op_scene_arry = new OracleParameter("ic_scene_arry", OracleDbType.Varchar2);
+			op_scene_arry.Direction = ParameterDirection.Input;
+			op_scene_arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+			op_scene_arry.Value = scene_arry;
+			//支付状态数组
+			OracleParameter op_state_arry = new OracleParameter("ic_state_arry", OracleDbType.Varchar2);
+			op_state_arry.Direction = ParameterDirection.Input;
+			op_state_arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+			op_state_arry.Value = state_arry;
+			//支付金额数组
+			OracleParameter op_payfee_arry = new OracleParameter("in_payfee_arry", OracleDbType.Decimal);
+			op_payfee_arry.Direction = ParameterDirection.Input;
+			op_payfee_arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+			op_payfee_arry.Value = payfee_arry;
+
+			return SqlAssist.ExecuteProcedure("pkg_wechat.prc_genCheckData",
+				new OracleParameter[] { op_wxpayId_arry, op_orderId_arry, op_payDate_arry, op_scene_arry, op_state_arry, op_payfee_arry });			 
+		}
+
+
+
+
 
 	}
 }

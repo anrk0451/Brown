@@ -223,31 +223,35 @@
 			this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
 			this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
 			this.barDockControlTop.Manager = this.barManager1;
-			this.barDockControlTop.Size = new System.Drawing.Size(1122, 32);
+			this.barDockControlTop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.barDockControlTop.Size = new System.Drawing.Size(842, 27);
 			// 
 			// barDockControlBottom
 			// 
 			this.barDockControlBottom.CausesValidation = false;
 			this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.barDockControlBottom.Location = new System.Drawing.Point(0, 552);
+			this.barDockControlBottom.Location = new System.Drawing.Point(0, 368);
 			this.barDockControlBottom.Manager = this.barManager1;
-			this.barDockControlBottom.Size = new System.Drawing.Size(1122, 0);
+			this.barDockControlBottom.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.barDockControlBottom.Size = new System.Drawing.Size(842, 0);
 			// 
 			// barDockControlLeft
 			// 
 			this.barDockControlLeft.CausesValidation = false;
 			this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-			this.barDockControlLeft.Location = new System.Drawing.Point(0, 32);
+			this.barDockControlLeft.Location = new System.Drawing.Point(0, 27);
 			this.barDockControlLeft.Manager = this.barManager1;
-			this.barDockControlLeft.Size = new System.Drawing.Size(0, 520);
+			this.barDockControlLeft.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.barDockControlLeft.Size = new System.Drawing.Size(0, 341);
 			// 
 			// barDockControlRight
 			// 
 			this.barDockControlRight.CausesValidation = false;
 			this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-			this.barDockControlRight.Location = new System.Drawing.Point(1122, 32);
+			this.barDockControlRight.Location = new System.Drawing.Point(842, 27);
 			this.barDockControlRight.Manager = this.barManager1;
-			this.barDockControlRight.Size = new System.Drawing.Size(0, 520);
+			this.barDockControlRight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.barDockControlRight.Size = new System.Drawing.Size(0, 341);
 			// 
 			// barButtonItem1
 			// 
@@ -344,90 +348,87 @@
 			this.panelControl1.Controls.Add(this.labelControl2);
 			this.panelControl1.Controls.Add(this.labelControl1);
 			this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panelControl1.Location = new System.Drawing.Point(0, 32);
+			this.panelControl1.Location = new System.Drawing.Point(0, 27);
+			this.panelControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.panelControl1.Name = "panelControl1";
-			this.panelControl1.Size = new System.Drawing.Size(1122, 68);
+			this.panelControl1.Size = new System.Drawing.Size(842, 45);
 			this.panelControl1.TabIndex = 4;
 			// 
 			// be_cuname
 			// 
-			this.be_cuname.Location = new System.Drawing.Point(135, 23);
+			this.be_cuname.Location = new System.Drawing.Point(101, 15);
+			this.be_cuname.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.be_cuname.MenuManager = this.barManager1;
 			this.be_cuname.Name = "be_cuname";
 			this.be_cuname.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Search)});
-			this.be_cuname.Size = new System.Drawing.Size(518, 24);
+			this.be_cuname.Size = new System.Drawing.Size(388, 19);
 			this.be_cuname.TabIndex = 7;
 			this.be_cuname.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.be_cuname_ButtonClick);
 			// 
 			// te_fin_sum
 			// 
-			this.te_fin_sum.Location = new System.Drawing.Point(984, 23);
+			this.te_fin_sum.Location = new System.Drawing.Point(738, 15);
+			this.te_fin_sum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.te_fin_sum.MenuManager = this.barManager1;
 			this.te_fin_sum.Name = "te_fin_sum";
 			this.te_fin_sum.Properties.Appearance.Options.UseTextOptions = true;
 			this.te_fin_sum.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
 			this.te_fin_sum.Properties.ReadOnly = true;
-			this.te_fin_sum.Size = new System.Drawing.Size(106, 24);
+			this.te_fin_sum.Size = new System.Drawing.Size(80, 18);
 			this.te_fin_sum.TabIndex = 5;
 			// 
 			// labelControl3
 			// 
-			this.labelControl3.Appearance.Image = null;
-			this.labelControl3.AppearanceDisabled.Image = null;
-			this.labelControl3.AppearanceHovered.Image = null;
-			this.labelControl3.AppearancePressed.Image = null;
-			this.labelControl3.Location = new System.Drawing.Point(898, 26);
+			this.labelControl3.Location = new System.Drawing.Point(674, 17);
+			this.labelControl3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.labelControl3.Name = "labelControl3";
-			this.labelControl3.Size = new System.Drawing.Size(80, 18);
+			this.labelControl3.Size = new System.Drawing.Size(66, 12);
 			this.labelControl3.TabIndex = 4;
 			this.labelControl3.Text = "财政票合计:";
 			// 
 			// te_tax_sum
 			// 
-			this.te_tax_sum.Location = new System.Drawing.Point(764, 23);
+			this.te_tax_sum.Location = new System.Drawing.Point(573, 15);
+			this.te_tax_sum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.te_tax_sum.MenuManager = this.barManager1;
 			this.te_tax_sum.Name = "te_tax_sum";
 			this.te_tax_sum.Properties.Appearance.Options.UseTextOptions = true;
 			this.te_tax_sum.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
 			this.te_tax_sum.Properties.ReadOnly = true;
-			this.te_tax_sum.Size = new System.Drawing.Size(106, 24);
+			this.te_tax_sum.Size = new System.Drawing.Size(80, 18);
 			this.te_tax_sum.TabIndex = 3;
 			// 
 			// labelControl2
 			// 
-			this.labelControl2.Appearance.Image = null;
-			this.labelControl2.AppearanceDisabled.Image = null;
-			this.labelControl2.AppearanceHovered.Image = null;
-			this.labelControl2.AppearancePressed.Image = null;
-			this.labelControl2.Location = new System.Drawing.Point(692, 26);
+			this.labelControl2.Location = new System.Drawing.Point(519, 17);
+			this.labelControl2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.labelControl2.Name = "labelControl2";
-			this.labelControl2.Size = new System.Drawing.Size(65, 18);
+			this.labelControl2.Size = new System.Drawing.Size(54, 12);
 			this.labelControl2.TabIndex = 2;
 			this.labelControl2.Text = "税票合计:";
 			// 
 			// labelControl1
 			// 
-			this.labelControl1.Appearance.Image = null;
-			this.labelControl1.AppearanceDisabled.Image = null;
-			this.labelControl1.AppearanceHovered.Image = null;
-			this.labelControl1.AppearancePressed.Image = null;
-			this.labelControl1.Location = new System.Drawing.Point(26, 26);
+			this.labelControl1.Location = new System.Drawing.Point(20, 17);
+			this.labelControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.labelControl1.Name = "labelControl1";
-			this.labelControl1.Size = new System.Drawing.Size(90, 18);
+			this.labelControl1.Size = new System.Drawing.Size(72, 12);
 			this.labelControl1.TabIndex = 0;
 			this.labelControl1.Text = "交款人或单位";
 			// 
 			// gridControl1
 			// 
 			this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gridControl1.Location = new System.Drawing.Point(0, 100);
+			this.gridControl1.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.gridControl1.Location = new System.Drawing.Point(0, 72);
 			this.gridControl1.MainView = this.gridView1;
+			this.gridControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.gridControl1.MenuManager = this.barManager1;
 			this.gridControl1.Name = "gridControl1";
 			this.gridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.lookup_sa001});
-			this.gridControl1.Size = new System.Drawing.Size(1122, 452);
+			this.gridControl1.Size = new System.Drawing.Size(842, 296);
 			this.gridControl1.TabIndex = 31;
 			this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -450,8 +451,9 @@
             this.gridColumn7,
             this.gridColumn8,
             this.gridColumn9});
+			this.gridView1.DetailHeight = 233;
 			this.gridView1.GridControl = this.gridControl1;
-			this.gridView1.IndicatorWidth = 45;
+			this.gridView1.IndicatorWidth = 33;
 			this.gridView1.Name = "gridView1";
 			this.gridView1.OptionsBehavior.Editable = false;
 			this.gridView1.OptionsBehavior.ReadOnly = true;
@@ -470,20 +472,22 @@
 			// 
 			this.gridColumn1.Caption = "项目编号";
 			this.gridColumn1.FieldName = "SA004";
+			this.gridColumn1.MinWidth = 15;
 			this.gridColumn1.Name = "gridColumn1";
 			this.gridColumn1.OptionsColumn.AllowEdit = false;
 			this.gridColumn1.OptionsColumn.AllowShowHide = false;
-			this.gridColumn1.Width = 221;
+			this.gridColumn1.Width = 165;
 			// 
 			// gridColumn6
 			// 
 			this.gridColumn6.Caption = "服务或商品名";
 			this.gridColumn6.FieldName = "SA003";
+			this.gridColumn6.MinWidth = 15;
 			this.gridColumn6.Name = "gridColumn6";
 			this.gridColumn6.OptionsColumn.AllowEdit = false;
 			this.gridColumn6.Visible = true;
 			this.gridColumn6.VisibleIndex = 0;
-			this.gridColumn6.Width = 183;
+			this.gridColumn6.Width = 137;
 			// 
 			// gridColumn2
 			// 
@@ -491,11 +495,12 @@
 			this.gridColumn2.DisplayFormat.FormatString = "N2";
 			this.gridColumn2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
 			this.gridColumn2.FieldName = "PRICE";
+			this.gridColumn2.MinWidth = 15;
 			this.gridColumn2.Name = "gridColumn2";
 			this.gridColumn2.OptionsColumn.AllowEdit = false;
 			this.gridColumn2.Visible = true;
 			this.gridColumn2.VisibleIndex = 1;
-			this.gridColumn2.Width = 113;
+			this.gridColumn2.Width = 85;
 			// 
 			// gridColumn3
 			// 
@@ -503,11 +508,12 @@
 			this.gridColumn3.DisplayFormat.FormatString = "N1";
 			this.gridColumn3.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
 			this.gridColumn3.FieldName = "NUMS";
+			this.gridColumn3.MinWidth = 15;
 			this.gridColumn3.Name = "gridColumn3";
 			this.gridColumn3.OptionsColumn.AllowEdit = false;
 			this.gridColumn3.Visible = true;
 			this.gridColumn3.VisibleIndex = 2;
-			this.gridColumn3.Width = 81;
+			this.gridColumn3.Width = 61;
 			// 
 			// gridColumn4
 			// 
@@ -515,6 +521,7 @@
 			this.gridColumn4.DisplayFormat.FormatString = "N2";
 			this.gridColumn4.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
 			this.gridColumn4.FieldName = "SA007";
+			this.gridColumn4.MinWidth = 15;
 			this.gridColumn4.Name = "gridColumn4";
 			this.gridColumn4.OptionsColumn.AllowEdit = false;
 			this.gridColumn4.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
@@ -523,40 +530,44 @@
 			this.gridColumn4.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
 			this.gridColumn4.Visible = true;
 			this.gridColumn4.VisibleIndex = 3;
-			this.gridColumn4.Width = 127;
+			this.gridColumn4.Width = 95;
 			// 
 			// gridColumn5
 			// 
 			this.gridColumn5.Caption = "类别";
 			this.gridColumn5.FieldName = "SA002";
+			this.gridColumn5.MinWidth = 15;
 			this.gridColumn5.Name = "gridColumn5";
 			this.gridColumn5.OptionsColumn.AllowEdit = false;
 			this.gridColumn5.OptionsColumn.AllowShowHide = false;
+			this.gridColumn5.Width = 57;
 			// 
 			// gridColumn7
 			// 
 			this.gridColumn7.Caption = "gridColumn7";
 			this.gridColumn7.FieldName = "SA005";
+			this.gridColumn7.MinWidth = 15;
 			this.gridColumn7.Name = "gridColumn7";
 			this.gridColumn7.OptionsColumn.AllowShowHide = false;
+			this.gridColumn7.Width = 57;
 			// 
 			// gridColumn8
 			// 
 			this.gridColumn8.Caption = "发票编码";
 			this.gridColumn8.FieldName = "INVOICECODE";
-			this.gridColumn8.MinWidth = 25;
+			this.gridColumn8.MinWidth = 19;
 			this.gridColumn8.Name = "gridColumn8";
-			this.gridColumn8.Width = 94;
+			this.gridColumn8.Width = 70;
 			// 
 			// gridColumn9
 			// 
 			this.gridColumn9.Caption = "票别";
 			this.gridColumn9.FieldName = "SA020";
-			this.gridColumn9.MinWidth = 25;
+			this.gridColumn9.MinWidth = 19;
 			this.gridColumn9.Name = "gridColumn9";
 			this.gridColumn9.Visible = true;
 			this.gridColumn9.VisibleIndex = 4;
-			this.gridColumn9.Width = 94;
+			this.gridColumn9.Width = 70;
 			// 
 			// lookup_sa001
 			// 
@@ -567,7 +578,7 @@
 			// 
 			// TempSales
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.gridControl1);
 			this.Controls.Add(this.panelControl1);
@@ -576,7 +587,7 @@
 			this.Controls.Add(this.barDockControlBottom);
 			this.Controls.Add(this.barDockControlTop);
 			this.Name = "TempSales";
-			this.Size = new System.Drawing.Size(1122, 552);
+			this.Size = new System.Drawing.Size(842, 368);
 			this.Load += new System.EventHandler(this.TempSales_Load);
 			((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();

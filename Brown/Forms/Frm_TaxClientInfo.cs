@@ -12,11 +12,13 @@ using Brown.BaseObject;
 using Brown.Misc;
 using Brown.Domain;
 using Oracle.ManagedDataAccess.Client;
+using Brown.Action;
 
 namespace Brown.Forms
 {
     public partial class Frm_TaxClientInfo : BaseDialog
     {
+        private string fa001 = string.Empty;
         TaxClientInfo taxClientInfo = new TaxClientInfo();
         
         public Frm_TaxClientInfo()
@@ -30,13 +32,22 @@ namespace Brown.Forms
             txtedit_clientName.Text = cuname;  
         }
 
-        public Frm_TaxClientInfo(Tu01 tu01)
+        public Frm_TaxClientInfo(string cuname,string fa001)
+        {
+            InitializeComponent();
+            txtedit_clientName.Text = cuname;
+            this.fa001 = fa001;
+        }
+
+
+        public Frm_TaxClientInfo(Tu01 tu01,string fa001)
         {
             InitializeComponent();
             txtedit_clientName.Text = tu01.tu003;
             txtedit_InfoClientTaxCode.Text = tu01.tu005;
             txtedit_infoclientaddressphone.Text = tu01.tu006;
             txtedit_infoclientbankaccount.Text = tu01.tu007;
+            this.fa001 = fa001;
         }
 
         private void Frm_TaxClientInfo_Load(object sender, EventArgs e)
@@ -62,10 +73,12 @@ namespace Brown.Forms
             taxClientInfo.infochecker = txtedit_infochecker.Text;                      //复核人
 
             this.swapdata["taxclientinfo"] = taxClientInfo;
-             
 
-            DialogResult = DialogResult.OK;
-            this.Close();
+            if(TaxInvoice.SaveTaxBill(fa001, taxClientInfo.InfoClientName, taxClientInfo.InfoClientTaxCode, taxClientInfo.infoclientbankaccount, taxClientInfo.infoclientaddressphone,txt_phone.Text, taxClientInfo.infocashier, taxClientInfo.infochecker,Envior.TAX_EXTENSION, Envior.TAX_MACHINECODE, Envior.cur_userId,Envior.WORKSTATIONID) > 0)
+            {
+                DialogResult = DialogResult.OK;
+                this.Close();
+            }             
         }
     }
 }

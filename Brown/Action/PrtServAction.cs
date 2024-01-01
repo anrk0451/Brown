@@ -246,8 +246,8 @@ namespace Brown.Action
 					sb_1.Append(reader["FIRETIME"].ToString() + "\t");                           //火化时间
 					sb_1.Append(Envior.cur_userName + "\t");                                     //经办人
 					sb_1.Append(reader["FIRETIME"].ToString() + "\t");                           //经办时间(为火化日期)
-					sb_1.Append(reader["UNITNAME"].ToString());                                 //单位名称
-
+					sb_1.Append(reader["UNITNAME"].ToString() + "\t");                           //单位名称
+					sb_1.Append(reader["AC014"].ToString());									 //身份证号
 					int commandNum = GenNewCommandNum();
 					SendPrtCommand(Envior.prtConnId,
 										whandle,
@@ -605,6 +605,30 @@ namespace Brown.Action
 			}
 			reader.Dispose();
 			oc_command.Dispose();
+		}
+
+
+		/// <summary>
+		/// 打印财政电子票
+		/// </summary>
+		/// <param name="ac001"></param>
+		public static void Print_EInvoice(int whandle)
+		{ 
+			try
+			{				  
+				int commandNum = GenNewCommandNum();
+				SendPrtCommand(Envior.prtConnId,
+									whandle,
+									commandNum,
+									"Invoice_Elec",
+									" ",
+									" "
+				);				 
+			}
+			catch (Exception ee)
+			{
+				XtraMessageBox.Show(ee.ToString(), "错误");
+			}			 
 		}
 
 	}

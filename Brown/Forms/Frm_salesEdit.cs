@@ -42,7 +42,8 @@ namespace Brown.Forms
             ///设置权限.......
             ///
             string sa002 = dr["SA002"].ToString();
-            if (sa002 == "11" || sa002 == "04" || sa002 == "06" || sa002 == "07" || sa002 == "03")
+            if (sa002 == "04" || sa002 == "06" || sa002 == "03")
+            //if (sa002 == "11" || sa002 == "04" || sa002 == "06" || sa002 == "07" || sa002 == "03")
             {
                 txtedit_nums.ReadOnly = true;
             }

@@ -182,7 +182,7 @@ namespace Brown
 
             OracleParameter appcode = new OracleParameter("on_appcode", OracleDbType.Int16);
             appcode.Direction = ParameterDirection.Output;
-            OracleParameter apperror = new OracleParameter("oc_error", OracleDbType.Varchar2, 100);
+            OracleParameter apperror = new OracleParameter("oc_error", OracleDbType.Varchar2, 200);
             apperror.Direction = ParameterDirection.Output;
 
             try

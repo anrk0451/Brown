@@ -18,7 +18,7 @@ namespace Brown.BusinessObject
     public partial class Report_regstat : BaseBusiness
     {
         DataTable dt_regstat = new DataTable();
-        OracleDataAdapter regAdapter = new OracleDataAdapter("select * from v_register where to_char(rc140,'yyyy-mm-dd') between :begin and :end", SqlAssist.conn);
+        OracleDataAdapter regAdapter = new OracleDataAdapter("select * from v_register_stat where to_char(rc140,'yyyy-mm-dd') between :begin and :end", SqlAssist.conn);
 
         OracleParameter op_begin = new OracleParameter("begin", OracleDbType.Varchar2, 20);
         OracleParameter op_end = new OracleParameter("end", OracleDbType.Varchar2, 20);
